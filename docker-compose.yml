@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  master:
+    build: .
+    container_name: master
+    hostname: master
+    networks:
+      - hadoop-net
+    ports:
+      - "9870:9870"
+      - "8088:8088"
+      - "8080:8080"
+      - "4041:4040"
+      - "7077:7077"
+    volumes:
+      - master-data:/opt/hadoop/data
+
+  slave1:
+    build: .
+    container_name: slave1
+    hostname: slave1
+    networks:
+      - hadoop-net
+    volumes:
+      - slave1-data:/opt/hadoop/data
+    depends_on:
+      - master
+
+  slave2:
+    build: .
+    container_name: slave2
+    hostname: slave2
+    networks:
+      - hadoop-net
+    volumes:
+      - slave2-data:/opt/hadoop/data
+    depends_on:
+      - master
+
+  slave3:
+    build: .
+    container_name: slave3
+    hostname: slave3
+    networks:
+      - hadoop-net
+    volumes:
+      - slave3-data:/opt/hadoop/data
+    depends_on:
+      - master
+
+  slave4:
+    build: .
+    container_name: slave4
+    hostname: slave4
+    networks:
+      - hadoop-net
+    volumes:
+      - slave4-data:/opt/hadoop/data
+    depends_on:
+      - master
+
+networks:
+  hadoop-net:
+    driver: bridge
+
+volumes:
+  master-data:
+  slave1-data:
+  slave2-data:
+  slave3-data:
+  slave4-data:
